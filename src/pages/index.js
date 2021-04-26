@@ -14,7 +14,7 @@ const StatusBadge = ({ deployUrl, statusUrl }) => {
   </a>
 }
 
-export default function Home({ landscapes }) {
+export default function Home({ landscapes, ip }) {
   const [data, setData] = useState({})
 
   const setRepoData = (repo, repoData) => setData(data => ({ ...data, [repo]: { ...data[repo], ...repoData } }))
@@ -58,6 +58,7 @@ export default function Home({ landscapes }) {
           <th>Status</th>
           <th>Published</th>
           <th>Data Refreshed</th>
+          <th>Update Logs</th>
         </tr>
       </thead>
       <tbody>
@@ -70,6 +71,7 @@ export default function Home({ landscapes }) {
             <td><StatusBadge statusUrl={landscapeData.statusUrl} deployUrl={landscapeData.deployUrl} /></td>
             <td>{landscapeData.publishedAt || 'Loading...'}</td>
             <td>{landscapeData.updatedAt || 'Loading...'}</td>
+            <td><a href={`http://${ip}/${landscape.key}.html`}>View Logs</a></td>
           </tr>
         })}
       </tbody>
@@ -80,13 +82,13 @@ export default function Home({ landscapes }) {
 export async function getStaticProps() {
   const data = await fetchYaml('cncf/landscapeapp/HEAD/landscapes.yml')
 
-  const landscapes = await Promise.all(data.landscapes.map(async ({ repo }) => {
+  const landscapes = await Promise.all(data.landscapes.map(async ({ repo, name: key }) => {
     const  { global } = await fetchYaml(`${repo}/HEAD/settings.yml`)
     const { website: url, short_name: name, short_domain, company_url } = global
 
-    return { name, repo, url, short_domain, company_url }
+    return { name, repo, url, short_domain, company_url, key }
 
   }))
 
-  return { props: { landscapes } }
+  return { props: { landscapes, ip: data.ip } }
 }
