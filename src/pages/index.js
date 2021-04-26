@@ -53,7 +53,7 @@ export default function Home({ landscapes }) {
       <thead>
         <tr>
           <th>Organization</th>
-          <th>Lasndscape</th>
+          <th>Landscape</th>
           <th>Repo</th>
           <th>Status</th>
           <th>Published</th>
