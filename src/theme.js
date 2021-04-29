@@ -5,6 +5,9 @@ const theme = extendTheme({
     global: {
       td: {
         whiteSpace: 'nowrap'
+      },
+      a: {
+        color: 'blue.700'
       }
     }
   },
@@ -13,7 +16,7 @@ const theme = extendTheme({
       baseStyle: {
         color: 'blue.500'
       }
-    },
+    }
   }
 })
 

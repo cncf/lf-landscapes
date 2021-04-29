@@ -20,7 +20,7 @@ const dateTimeFormat = new Intl.DateTimeFormat('en', { month: 'short', day: '2-d
 const Link = ({ children, ...rest }) => {
   const textOnly = typeof children === 'string'
 
-  return <ChakraLink isExternal color="blue.600" {...rest}>
+  return <ChakraLink isExternal {...rest}>
       {children} {textOnly && <ExternalLinkIcon mx="2px" />}
   </ChakraLink>
 }
