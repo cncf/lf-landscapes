@@ -26,18 +26,17 @@ const Link = ({ children, ...rest }) => {
 }
 
 const StatusBadge = ({ deployUrl, statusUrl }) => {
-  if (!statusUrl) {
-    return <Spinner speed="1s" />
-  }
-
-  return <Link href={deployUrl}>
+  return <>
     <style jsx>{`
       img {
-        maxWidth: auto;
+        max-width: none;
       }
     `}</style>
-    <img src={statusUrl} />
-  </Link>
+
+    { !statusUrl ? <Spinner speed="1s" /> : <Link href={deployUrl}>
+      <img src={statusUrl} />
+    </Link> }
+  </>
 }
 
 export default function Home({ landscapes, ip }) {
