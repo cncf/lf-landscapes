@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react'
 
 function MyApp({ Component, pageProps }) {
   return <>
@@ -6,7 +7,15 @@ function MyApp({ Component, pageProps }) {
       <title>Create Next App</title>
       <link rel="icon" href="/favicon.png" />
     </Head>
-    <Component {...pageProps} />
+    <ChakraProvider resetCSS>
+      <ColorModeProvider
+        options={{
+          useSystemColorMode: true,
+        }}
+      >
+        <Component {...pageProps} />
+      </ColorModeProvider>
+    </ChakraProvider>
   </>
 }
 
