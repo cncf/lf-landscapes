@@ -90,7 +90,11 @@ export default function Home({ landscapes, ip }) {
         { landscapes.map(landscape => {
           const landscapeData = data[landscape.repo] || {}
           return <Tr key={landscape.name}>
-            <Td><Link href={landscape.company_url} isExternal><img src={`${landscape.url}/images/right-logo.svg`} className="logo"/></Link></Td>
+            <Td>
+              <Link href={landscape.company_url} isExternal>
+                <img src={`${landscape.url}/images/right-logo.svg`} alt={landscape.name} className="logo"/>
+              </Link>
+            </Td>
             <Td><Link href={landscape.url}>{landscape.short_domain}</Link></Td>
             <Td><Link href={`https://github.com/${landscape.repo}`}>{landscape.repo}</Link></Td>
             <Td><StatusBadge statusUrl={landscapeData.statusUrl} deployUrl={landscapeData.deployUrl} /></Td>
