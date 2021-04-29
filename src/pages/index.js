@@ -2,16 +2,42 @@ import { useState, useEffect } from 'react'
 import fetchYaml from '../utils/fetchYaml'
 import fetchFile from '../utils/fetchFile'
 
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Link as ChakraLink,
+  Spinner
+} from '@chakra-ui/react'
+
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+
 const dateTimeFormat = new Intl.DateTimeFormat('en', { month: 'short', day: '2-digit', hour: '2-digit', minute:'2-digit', hour12: false })
+
+const Link = ({ children, ...rest }) => {
+  const textOnly = typeof children === 'string'
+
+  return <ChakraLink isExternal color="blue.600" {...rest}>
+      {children} {textOnly && <ExternalLinkIcon mx="2px" />}
+  </ChakraLink>
+}
 
 const StatusBadge = ({ deployUrl, statusUrl }) => {
   if (!statusUrl) {
-    return 'Loading...'
+    return <Spinner speed="1s" />
   }
 
-  return <a href={deployUrl}>
+  return <Link href={deployUrl}>
+    <style jsx>{`
+      img {
+        maxWidth: auto;
+      }
+    `}</style>
     <img src={statusUrl} />
-  </a>
+  </Link>
 }
 
 export default function Home({ landscapes, ip }) {
@@ -43,40 +69,40 @@ export default function Home({ landscapes, ip }) {
     })
   }, [])
 
-  return <main>
+  return <div>
     <style jsx>{`
-      a img {
+      .logo {
         height: 30px;
       }
     `}</style>
-    <table>
-      <thead>
-        <tr>
-          <th>Organization</th>
-          <th>Landscape</th>
-          <th>Repo</th>
-          <th>Status</th>
-          <th>Published</th>
-          <th>Data Refreshed</th>
-          <th>Update Logs</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table >
+      <Thead>
+        <Tr>
+          <Th>Organization</Th>
+          <Th>Landscape</Th>
+          <Th>Repo</Th>
+          <Th>Status</Th>
+          <Th>Published</Th>
+          <Th>Data Refreshed</Th>
+          <Th>Update Logs</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
         { landscapes.map(landscape => {
           const landscapeData = data[landscape.repo] || {}
-          return <tr key={landscape.name}>
-            <td><a href={landscape.company_url}><img src={`${landscape.url}/images/right-logo.svg`} /></a></td>
-            <td><a href={landscape.url}>{landscape.short_domain}</a></td>
-            <td><a href={`https://github.com/${landscape.repo}`}>{landscape.repo}</a></td>
-            <td><StatusBadge statusUrl={landscapeData.statusUrl} deployUrl={landscapeData.deployUrl} /></td>
-            <td>{landscapeData.publishedAt || 'Loading...'}</td>
-            <td>{landscapeData.updatedAt || 'Loading...'}</td>
-            <td><a href={`http://${ip}/${landscape.key}.html`}>View Logs</a></td>
-          </tr>
+          return <Tr key={landscape.name}>
+            <Td><Link href={landscape.company_url} isExternal><img src={`${landscape.url}/images/right-logo.svg`} className="logo"/></Link></Td>
+            <Td><Link href={landscape.url}>{landscape.short_domain}</Link></Td>
+            <Td><Link href={`https://github.com/${landscape.repo}`}>{landscape.repo}</Link></Td>
+            <Td><StatusBadge statusUrl={landscapeData.statusUrl} deployUrl={landscapeData.deployUrl} /></Td>
+            <Td>{landscapeData.publishedAt || <Spinner speed="1s" />}</Td>
+            <Td>{landscapeData.updatedAt || <Spinner speed="1s" />}</Td>
+            <Td><Link href={`http://${ip}/${landscape.key}.html`}>View Logs</Link></Td>
+          </Tr>
         })}
-      </tbody>
-    </table>
-  </main>
+      </Tbody>
+    </Table>
+  </div>
 }
 
 export async function getStaticProps() {
