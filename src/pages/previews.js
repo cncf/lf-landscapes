@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import fetchYaml from '../utils/fetchYaml'
 import { SimpleGrid, Link, VStack } from '@chakra-ui/react'
 
@@ -8,6 +9,9 @@ const PreviewPage = ({ landscapes }) => {
         height: 40px;
       }
     `}</style>
+    <Head>
+      <title>Previews | Linux Foundation Landscapes</title>
+    </Head>
     { landscapes.map(landscape => {
       return <VStack key={landscape.url}>
         <Link href={landscape.company_url} isExternal>

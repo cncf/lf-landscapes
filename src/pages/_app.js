@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
       }
     `}</style>
     <Head>
-      <title>Create Next App</title>
+      <title>Linux Foundation Landscapes</title>
       <link rel="icon" href="/favicon.png" />
     </Head>
     <ChakraProvider resetCSS theme={theme}>
