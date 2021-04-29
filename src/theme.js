@@ -7,7 +7,7 @@ const theme = extendTheme({
         whiteSpace: 'nowrap'
       },
       a: {
-        color: 'blue.700'
+        color: 'blue.600'
       }
     }
   },
@@ -15,6 +15,11 @@ const theme = extendTheme({
     Spinner: {
       baseStyle: {
         color: 'blue.500'
+      }
+    },
+    Link: {
+      baseStyle: {
+        color: 'blue.600'
       }
     }
   }
